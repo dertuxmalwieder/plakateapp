@@ -1,0 +1,14 @@
+<table>
+<tr>
+<th><b>Latitude</b></th>
+<th><b>Longitude</b></th>
+<th><b>Löschen</b></th>
+</tr>
+{% for plakat in plakate %}
+<tr>
+<td>{{ plakat.lat }}</td>
+<td>{{ plakat.lon }}</td>
+<td><a href="/del/{{ plakat.id }}">X</a></td>
+</tr>
+{% endfor %}
+</table>
