@@ -1,6 +1,7 @@
 import sqlite3
 import json
 from flask import Flask, render_template, request, send_from_directory, redirect
+from gevent.wsgi import WSGIServer
 
 app = Flask(__name__)
 
@@ -86,4 +87,10 @@ def web_static(path):
     # Statische Templatedateien ausliefern
     return send_from_directory('templates', path)
 
-app.run(host='0.0.0.0', port=PORT, debug=False)
+http_server = WSGIServer(('0.0.0.0', PORT), app)
+try:
+    http_server.serve_forever()
+except KeyboardInterrupt:
+    print("Beende die Plakate-App...")
+    if http_server.started:
+        http_server.stop()

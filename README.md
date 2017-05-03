@@ -8,8 +8,9 @@ Klar. Nehmen wir an, ihr wollt für irgendeinen Verein eure Stadt vollplakatiere
 
 ## Technik
 
-Ihr braucht auf eurem Server nur Python und das Flask-Modul (`pip install flask`), alles Weitere lädt die Website automatisch:
+Ihr braucht auf eurem Server nur Python und die Module `Flask` und `gevent`, alles Weitere lädt die Website automatisch:
 
+    pip install flask gevent
     python ./server.py
 
 Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei `server.py`) erreichbar. Unter `/manageplakate` gibt es auch eine einfache Liste aller eingetragenen Plakate zum schnellen Löschen. Das Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
