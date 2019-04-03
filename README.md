@@ -8,7 +8,7 @@ Klar. Nehmen wir an, ihr wollt für irgendeinen Verein eure Stadt vollplakatiere
 
 ## Technik
 
-Ihr braucht auf eurem Server nur Python und die Module `Flask` und `gevent`, alles Weitere lädt die Website automatisch:
+Ihr braucht auf eurem Server nur Python 3 und die Module `Flask` und `gevent`, alles Weitere lädt die Website automatisch:
 
     pip install flask gevent
     python ./server.py

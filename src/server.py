@@ -1,7 +1,7 @@
 import sqlite3
 import json
 from flask import Flask, render_template, request, send_from_directory, redirect
-from gevent.wsgi import WSGIServer
+from gevent.pywsgi import WSGIServer
 from gevent import monkey
 
 monkey.patch_all()
