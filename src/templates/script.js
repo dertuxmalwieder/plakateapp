@@ -66,9 +66,6 @@ function initmap() {
         }
     });
 
-    $(".dellink").on("click", function() {
-    });
-
     // Ortung versuchen:
     map.locate({ setView: true, maxZoom: 28 });
 }
