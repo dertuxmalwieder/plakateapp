@@ -17,7 +17,7 @@ Ihr braucht auf eurem Server nur Go und ein paar Abhängigkeiten, alles Weitere 
     go build ./plakateapp.go
     ./plakateapp
 
-Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei `plakateapp.go`) erreichbar. Unter `euerserver:6090/manageplakate` gibt es auch eine einfache Liste aller eingetragenen Plakate zum schnellen Löschen. Das Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
+Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei `plakateapp.go`) erreichbar. Unter `euerserver:6090/manageplakate` gibt es auch eine einfache Liste aller eingetragenen Plakate zum schnellen Löschen. Der Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
 
 ## Urheberrecht? Quatsch.
 
