@@ -4,11 +4,11 @@
 <th><b>Longitude</b></th>
 <th><b>Löschen</b></th>
 </tr>
-{% for plakat in plakate %}
+{{range $quux, $Plakat := .}}
 <tr>
-<td>{{ plakat.lat }}</td>
-<td>{{ plakat.lon }}</td>
-<td><a href="/del/{{ plakat.id }}">X</a></td>
+<td>{{ $Plakat.Latitude }}</td>
+<td>{{ $Plakat.Longitude }}</td>
+<td><a href="/del/{{ $Plakat.ID }}">X</a></td>
 </tr>
-{% endfor %}
+{{end}}
 </table>

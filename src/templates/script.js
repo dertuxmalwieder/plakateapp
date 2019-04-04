@@ -7,8 +7,8 @@ function initmap() {
     // Karte initialisieren
     map = new L.Map('map');
 
-    var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osmAttrib='Karte von <a href="http://openstreetmap.org">OpenStreetMap</a>';
+    var osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib='Karte von <a href="https://openstreetmap.org">OpenStreetMap</a>';
     var osm = new L.TileLayer(osmUrl, {minZoom: 12, maxZoom: 28, attribution: osmAttrib});
 
     // OSM anzeigen
@@ -37,9 +37,9 @@ function initmap() {
           var json = JSON.parse(data);
           for (var i = 0; i < json.length; i++) {
               var plakat = json[i];
-              var plakatlatlng = new L.LatLng(plakat.lat,plakat.lon)
+              var plakatlatlng = new L.LatLng(plakat.Latitude,plakat.Longitude)
               var marker = new L.Marker(plakatlatlng, {draggable:false})
-.bindPopup("<input type='button' value='Plakat löschen' data-id='"+plakat.id+"' class='marker-delete-button'/>");
+.bindPopup("<input type='button' value='Plakat löschen' data-id='"+plakat.ID+"' class='marker-delete-button'/>");
 
               marker.on("popupopen", onPopupOpen);
               map.addLayer(marker);
@@ -82,7 +82,7 @@ function onPopupOpen() {
           { id: $(this).attr("data-id") },
           function(data) {
               // noop
-	   }
+          }
         );
         map.removeLayer(tempMarker);
     });
