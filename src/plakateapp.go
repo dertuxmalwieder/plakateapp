@@ -8,6 +8,7 @@ import (
     "io/ioutil"
     "log"
     "net/http"
+    "strconv"
 
     // Bibliotheken aus GitHub:
     _ "github.com/mattn/go-sqlite3"
@@ -26,11 +27,13 @@ type Plakat struct {
 // Reverse-Geocoding via Nominatim:
 
 type ReverseGeoCode struct {
+    // Bildet <reversegeocode> ab.
     XMLName     xml.Name    `xml:"reversegeocode"`
     AdressParts AdressParts `xml:"addressparts"`
 }
 
 type AdressParts struct {
+    // Bildet <reversegeocode><adressparts> ab.
     XMLName      xml.Name   `xml:"addressparts"`
     HouseNumber  string     `xml:"house_number"`
     Road         string     `xml:"road"`
@@ -47,6 +50,7 @@ type AdressParts struct {
 // ----------------------------------------
 
 func CheckError(err error) {
+    // Bei Fehlern schreiend im Kreis rennen:
     if err != nil {
         panic(err)
     }
@@ -69,6 +73,7 @@ func GetXML(url string) ([]byte, error) {
 }
 
 func FetchPlakate() []Plakat {
+    // Liste von Plakaten aus der DB in ein Plakat-Array schieben:
     db, err := sqlx.Open("sqlite3", "./plakate.db")
     CheckError(err)
     defer db.Close()
@@ -78,6 +83,18 @@ func FetchPlakate() []Plakat {
     db.Select(&plakate, "SELECT * FROM plakate")
 
     return plakate
+}
+
+func DeletePlakat(id string) {
+    // Datenbank aufrufen:
+    db, err := sqlx.Open("sqlite3", "./plakate.db")
+    CheckError(err)
+    defer db.Close()
+
+    // Löschen, falls möglich:
+    stmt, err := db.Prepare("delete from plakate where id = ?")
+    _, err = stmt.Exec(strconv.Atoi(id))
+    CheckError(err)
 }
 
 // ----------------------------------------
@@ -146,7 +163,6 @@ func NeuesPlakatHandler(w http.ResponseWriter, r *http.Request) {
     defer db.Close()
 
     stmt, err := db.Prepare("insert into plakate (lat, lon, location) values (?, ?, ?)")
-    CheckError(err)
     _, err = stmt.Exec(lat, lon, location)
     CheckError(err)
 
@@ -154,37 +170,18 @@ func NeuesPlakatHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func DelHandler(w http.ResponseWriter, r *http.Request) {
-    // Plakat mit vars["id"] löschen:
+    // Plakat mit URL-Parameter "id" löschen:
     vars := mux.Vars(r)
-
-    // Datenbank aufrufen:
-    db, err := sqlx.Open("sqlite3", "./plakate.db")
-    CheckError(err)
-    defer db.Close()
-
-    // Löschen, falls möglich:
-    stmt, err := db.Prepare("delete from plakate where id = ?")
-    CheckError(err)
-    _, err = stmt.Exec(vars["id"])
-    CheckError(err)
+    DeletePlakat(vars["id"])
 
     // Falls kein Fehler aufgetreten ist, umleiten auf /manageplakate:
     http.Redirect(w, r, "/manageplakate", http.StatusMovedPermanently)
 }
 
 func DelPostHandler(w http.ResponseWriter, r *http.Request) {
+    // Plakat mit POST-Parameter "id" löschen:
     data := r.FormValue("id")
-
-    // Datenbank aufrufen:
-    db, err := sqlx.Open("sqlite3", "./plakate.db")
-    CheckError(err)
-    defer db.Close()
-
-    // Löschen, falls möglich:
-    stmt, err := db.Prepare("delete from plakate where id = ?")
-    CheckError(err)
-    _, err = stmt.Exec(data)
-    CheckError(err)
+    DeletePlakat(data)
 
     // Falls kein Fehler aufgetreten ist, umleiten auf /manageplakate:
     http.Redirect(w, r, "/manageplakate", http.StatusMovedPermanently)
