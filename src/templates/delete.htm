@@ -1,14 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<title>Plakate verwalten</title>
+<style type="text/css">
+  body {
+    font-family: sans-serif;
+  }
+
+  table, tr, th, td {
+    border:1px solid gray;
+    border-collapse: collapse;
+    padding: 6px;
+  }
+
+  th {
+    text-align: left;
+  }
+
+  a:link, a:visited {
+    color: blue;
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+<p><a href="..">Zurück zur Karte</a></p>
+
 <table>
-<tr>
-<th><b>Latitude</b></th>
-<th><b>Longitude</b></th>
-<th><b>Löschen</b></th>
-</tr>
+  <tr>
+    <th><b>Latitude</b></th>
+    <th><b>Longitude</b></th>
+    <th style="min-width:500px"><b>Ort (ca.)</b></th>
+    <th><b>Löschen</b></th>
+  </tr>
 {{range $quux, $Plakat := .}}
-<tr>
-<td>{{ $Plakat.Latitude }}</td>
-<td>{{ $Plakat.Longitude }}</td>
-<td><a href="/del/{{ $Plakat.ID }}">X</a></td>
-</tr>
+  <tr>
+    <td>{{ $Plakat.Latitude }}</td>
+    <td>{{ $Plakat.Longitude }}</td>
+    <td>{{ $Plakat.Location }}</td>
+    <td><a href="/del/{{ $Plakat.ID }}">X</a></td>
+  </tr>
 {{end}}
 </table>
+</body>
+</html>
