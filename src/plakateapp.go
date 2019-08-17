@@ -93,7 +93,9 @@ func DeletePlakat(id string) {
 
     // Löschen, falls möglich:
     stmt, err := db.Prepare("delete from plakate where id = ?")
-    _, err = stmt.Exec(strconv.Atoi(id))
+    idint, err := strconv.Atoi(id)
+    CheckError(err)
+    _, err = stmt.Exec(idint)
     CheckError(err)
 }
 
