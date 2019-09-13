@@ -8,14 +8,16 @@ Klar. Nehmen wir an, ihr wollt für irgendeinen Verein eure Stadt vollplakatiere
 
 ## Technik
 
-Ihr braucht auf eurem Server nur Go und ein paar Abhängigkeiten, alles Weitere passiert automatisch:
+Ihr braucht auf eurem Server nur Fossil, Go und ein paar Abhängigkeiten, alles Weitere passiert automatisch:
 
-    git clone https://github.com/dertuxmalwieder/plakateapp ; cd plakateapp/src
+    fossil clone https://code.rosaelefanten.org/plakateapp plakateapp.fossil ; fossil open plakateapp.fossil
     go get github.com/mattn/go-sqlite3
     go get github.com/jmoiron/sqlx
     go get github.com/gorilla/mux
     go build ./plakateapp.go
     ./plakateapp
+
+Falls ihr Fossil nicht mögt: Es gibt auch einen [GitHub-Mirror](https://github.com/dertuxmalwieder/plakateapp).
 
 Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei `plakateapp.go`) erreichbar. Unter `euerserver:6090/manageplakate` gibt es auch eine einfache Liste aller eingetragenen Plakate zum schnellen Löschen. Der Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
 
