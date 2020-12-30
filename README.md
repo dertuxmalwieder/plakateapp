@@ -1,6 +1,6 @@
 # Plakate-App
 
-Dies ist eine Webanwendung, die eine anklickbare Straßenkarte anzeigt, über die (zum Beispiel) die Position von Plakaten im Wahlkampf bestimmt werden kann.
+Dies ist eine Webanwendung, die eine anklickbare Straßenkarte anzeigt, über die (zum Beispiel) die Position von Plakaten im Wahlkampf bestimmt werden kann. Eure Position wird automatisch ermittelt, sofern möglich.
 
 ## Hä? Haste mal ein Beispiel?
 
@@ -14,11 +14,17 @@ Ihr braucht auf eurem Server nur Fossil und Go, alles Weitere passiert automatis
     % cd src
     % go build
 
-Das Ausführen ist dann leicht - ich empfehle `tmux` oder `screen` zu nutzen, denn das Programm wird nicht automatisch in den Hintergrund geforkt:
+Falls ihr Fossil nicht mögt: Es gibt auch einen [GitHub-Mirror](https://github.com/dertuxmalwieder/plakateapp).
+
+Das Ausführen ist dann leicht:
 
     % ./plakateapp
 
-Falls ihr Fossil nicht mögt: Es gibt auch einen [GitHub-Mirror](https://github.com/dertuxmalwieder/plakateapp).
+Unter unixoiden Systemen legt die Plakateapp eine PID-Datei an, läuft also im Hintergrund. Zum Beenden sollte der `kill`-Befehl funktionieren:
+
+    % kill `cat plakateapp.pid`
+
+Unter Windows ist das zurzeit noch nicht vorgesehen, die Plakateapp läuft immer im Vordergrund..
 
 Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei `plakateapp.go`) erreichbar. Unter `euerserver:6090/manageplakate` gibt es auch eine einfache Liste aller eingetragenen Plakate zum schnellen Löschen. Der Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
 
