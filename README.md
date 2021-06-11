@@ -10,8 +10,8 @@ Klar. Nehmen wir an, ihr wollt für irgendeinen Verein eure Stadt vollplakatiere
 
 Ihr braucht auf eurem Server nur Fossil und Go, alles Weitere passiert automatisch:
 
-    % fossil clone https://code.rosaelefanten.org/plakateapp plakateapp.fossil ; fossil open plakateapp.fossil
-    % cd src
+    % fossil clone https://code.rosaelefanten.org/plakateapp
+    % cd plakateapp/src
     % go build
 
 Falls ihr Fossil nicht mögt: Es gibt auch einen [GitHub-Mirror](https://github.com/dertuxmalwieder/plakateapp).
