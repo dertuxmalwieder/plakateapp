@@ -30,7 +30,7 @@ function initmap() {
     map.addLayer(osm);
 
     // bei Ortungserfolg Standort anzeigen:
-    map.on('locationfound', function() {
+    map.on('locationfound', function(e) {
         var radius = e.accuracy / 2;
 
         L.marker(e.latlng).addTo(map)
@@ -68,17 +68,20 @@ function initmap() {
             var marker = new L.Marker(e.latlng, {draggable:false});
             marker.on("popupopen", onPopupOpen);
             map.addLayer(marker);
+
             $.post(
-              "/neuesplakat",
-              {
-                lat: e.latlng.lat,
-                lon: e.latlng.lng
-              },
-              function(data) {
-                alert(data);
-              }
+                "/neuesplakat",
+                {
+                    lat: e.latlng.lat,
+                    lon: e.latlng.lng
+                },
+                function(data) {
+                    alert(data);
+                }
             );
         }
+
+        return false;
     });
 
     // Ortung versuchen:
