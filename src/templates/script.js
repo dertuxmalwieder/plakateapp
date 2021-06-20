@@ -20,7 +20,7 @@ var plotlayers=[];
 
 function initmap() {
     // Karte initialisieren
-    map = new L.Map('map');
+    map = new L.Map('map', { tap: false });
 
     var osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var osmAttrib='Karte von <a href="https://openstreetmap.org">OpenStreetMap</a>';
