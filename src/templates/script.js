@@ -17,26 +17,52 @@ var map;
 var ajaxRequest;
 var plotlist;
 var plotlayers=[];
+var umkreis;
 
 function initmap() {
+    L.Map.include({
+      // Funktion zum Ermitteln einzelner Marker per ID.
+      getMarkerById: function (id) {
+        let marker = null;
+        this.eachLayer(function (layer) {
+            if (layer instanceof L.Marker) {
+                if (layer.options.id === id) {
+                    marker = layer;
+                }
+            }
+        });
+        return marker;
+      }
+    });
+
     // Karte initialisieren
     map = new L.Map('map', { tap: false });
 
-    var osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osmAttrib='Karte von <a href="https://openstreetmap.org">OpenStreetMap</a>';
-    var osm = new L.TileLayer(osmUrl, {minZoom: 12, maxZoom: 28, attribution: osmAttrib});
+    const osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const osmAttrib='Karte von <a href="https://openstreetmap.org">OpenStreetMap</a>';
+    const osm = new L.TileLayer(osmUrl, {minZoom: 12, maxZoom: 28, attribution: osmAttrib});
 
     // OSM anzeigen
     map.addLayer(osm);
 
     // bei Ortungserfolg Standort anzeigen:
     map.on('locationfound', function(e) {
-        var radius = e.accuracy / 2;
+        const radius = e.accuracy / 2;
 
-        L.marker(e.latlng).addTo(map)
-            .bindPopup("Du bist ungefähr hier.").openPopup();
+        // Haben wir schon einen Marker? Dann verschieben, sonst hinzufügen:
+        let posmarker = map.getMarkerById(1);
+        if (posmarker == null) {
+            L.marker(e.latlng, { id: 1 })
+                .addTo(map)
+                .bindPopup("Du bist ungefähr hier.")
+                .openPopup();
+        }
+        else {
+            map.removeLayer(umkreis);
+            posmarker.setLatLng(e.latlng);
+        }
 
-        L.circle(e.latlng, radius).addTo(map);
+        umkreis = L.circle(e.latlng, { radius: radius }).addTo(map);
     });
 
     // bei Ortungsmisserfolg Karte mitten in Braunschweig setzen:
@@ -49,12 +75,12 @@ function initmap() {
       "/listplakate",
       {},
       function(data) {
-          var json = JSON.parse(data);
-          for (var i = 0; i < json.length; i++) {
-              var plakat = json[i];
-              var plakatlatlng = new L.LatLng(plakat.Latitude,plakat.Longitude)
-              var marker = new L.Marker(plakatlatlng, {draggable:false})
-.bindPopup("<input type='button' value='Plakat löschen' data-id='"+plakat.ID+"' class='marker-delete-button'/>");
+          const json = JSON.parse(data);
+          for (let i = 0; i < json.length; i++) {
+              let plakat = json[i];
+              let plakatlatlng = new L.LatLng(plakat.Latitude,plakat.Longitude)
+              let marker = new L.Marker(plakatlatlng, {draggable:false})
+                           .bindPopup("<input type='button' value='Plakat löschen' data-id='"+plakat.ID+"' class='marker-delete-button'/>");
 
               marker.on("popupopen", onPopupOpen);
               map.addLayer(marker);
@@ -65,7 +91,7 @@ function initmap() {
     // neue Marker setzen:
     map.on('click', function(e) {
         if (confirm("Möchtest du hier ein neues Plakat melden?")) {
-            var marker = new L.Marker(e.latlng, {draggable:false});
+            let marker = new L.Marker(e.latlng, {draggable:false});
             marker.on("popupopen", onPopupOpen);
             map.addLayer(marker);
 
@@ -86,10 +112,26 @@ function initmap() {
 
     // Ortung versuchen:
     map.locate({ setView: true, maxZoom: 28 });
+
+    // Ort-Verfolgen-Button (ein/aus; Standard: aus):
+    $("#tracebtn").on("click", function() {
+        if ($(this).hasClass("strike")) {
+            // Verfolgen ausmachen.
+            map.stopLocate();
+            map.locate({ setView: true, maxZoom: 28 });
+        }
+        else {
+            // Verfolgen anmachen.
+            map.stopLocate();
+            map.locate({ setView: true, maxZoom: 28, watch: true });
+        }
+
+        $(this).toggleClass("strike"); 
+    });
 }
 
 function onPopupOpen() {
-    var tempMarker = this;
+    let tempMarker = this;
 
     $(".marker-delete-button:visible").click(function () {
         $.post(
