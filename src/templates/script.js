@@ -40,7 +40,14 @@ function initmap() {
 
     const osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const osmAttrib='Karte von <a href="https://openstreetmap.org">OpenStreetMap</a>';
-    const osm = new L.TileLayer(osmUrl, {minZoom: 12, maxZoom: 28, attribution: osmAttrib});
+    const osm = new L.TileLayer(
+        osmUrl, {
+        minZoom: 12,
+        maxZoom: 28,
+        attribution: osmAttrib,
+        useCache: true,
+        crossOrigin: true }
+    );
 
     // OSM anzeigen
     map.addLayer(osm);
