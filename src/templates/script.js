@@ -44,6 +44,7 @@ function initmap() {
         osmUrl, {
         minZoom: 12,
         maxZoom: 28,
+        maxNativeZoom: 19,
         attribution: osmAttrib,
         useCache: true,
         crossOrigin: true }
@@ -118,19 +119,19 @@ function initmap() {
     });
 
     // Ortung versuchen:
-    map.locate({ setView: true, maxZoom: 28 });
+    map.locate({ setView: true });
 
     // Ort-Verfolgen-Button (ein/aus; Standard: aus):
     $("#tracebtn").on("click", function() {
         if ($(this).hasClass("strike")) {
             // Verfolgen ausmachen.
             map.stopLocate();
-            map.locate({ setView: true, maxZoom: 28 });
+            map.locate({ setView: true });
         }
         else {
             // Verfolgen anmachen.
             map.stopLocate();
-            map.locate({ setView: true, maxZoom: 28, watch: true });
+            map.locate({ setView: true, watch: true });
         }
 
         $(this).toggleClass("strike"); 
