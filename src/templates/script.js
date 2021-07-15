@@ -84,7 +84,7 @@ function initmap() {
           const json = JSON.parse(data);
           for (let i = 0; i < json.length; i++) {
               let plakat = json[i];
-              let plakatlatlng = new L.LatLng(plakat.Latitude,plakat.Longitude)
+              let plakatlatlng = new L.LatLng(plakat.Latitude,plakat.Longitude);
               let marker = new L.Marker(plakatlatlng, {draggable:false})
                            .bindPopup("<input type='button' value='Plakat löschen' data-id='"+plakat.ID+"' class='marker-delete-button'/>");
 
