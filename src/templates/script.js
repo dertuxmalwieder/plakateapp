@@ -124,12 +124,12 @@ function initmap() {
         if ($(this).hasClass("strike")) {
             // Verfolgen ausmachen.
             map.stopLocate();
-            map.locate({ setView: true });
+            map.locate({ setView: true, maxZoom: map.getZoom() });
         }
         else {
             // Verfolgen anmachen.
             map.stopLocate();
-            map.locate({ setView: true, watch: true });
+            map.locate({ setView: true, watch: true, maxZoom: map.getZoom() });
         }
 
         $(this).toggleClass("strike"); 
