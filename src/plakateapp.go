@@ -160,7 +160,12 @@ func NeuesPlakatHandler(w http.ResponseWriter, r *http.Request) {
 	p3 := ""
 
 	if adressData.Road != "" {
-		p1 = fmt.Sprintf("%s %s, ", adressData.Road, adressData.HouseNumber)
+		if adressData.HouseNumber != "" {
+			p1 = fmt.Sprintf("%s %s, ", adressData.Road, adressData.HouseNumber)
+		} else {
+			// Manche Straßen werden ohne konkrete Hausnummer gefunden.
+			p1 = fmt.Sprintf("%s, ", adressData.Road)
+		}
 	}
 
 	if adressData.District != "" {
