@@ -15,8 +15,6 @@
 
 var map;
 var ajaxRequest;
-var plotlist;
-var plotlayers=[];
 var umkreis;
 
 function initmap() {
