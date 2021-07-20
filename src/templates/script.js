@@ -161,6 +161,8 @@ function onPopupOpen() {
     });
 }
 
-$(document).ready(function() {
-    initmap();
-});
+if (window.jQuery) {
+    $(document).ready(function() {
+        initmap();
+    });
+}
