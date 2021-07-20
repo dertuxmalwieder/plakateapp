@@ -117,9 +117,7 @@ function initmap() {
                 },
                 function(data) {
                     Toastify({
-                        text: data,
-                        style.background: "#ffffff",
-                        style.fontFamily: "sans-serif"
+                        text: data
                     }).showToast();
                 }
             );
