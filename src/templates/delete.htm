@@ -22,6 +22,7 @@
 </style>
 <link rel="stylesheet" href="/static/vendor/sortable.min.css" />
 <script type="text/javascript" src="/static/vendor/sortable.min.js"></script>
+<script type="text/javascript" src="/static/script.js"></script>
 </head>
 <body>
 <p><a href="..">Zurück zur Karte</a></p>
@@ -43,7 +44,7 @@
     <td>{{ $Plakat.Latitude }}</td>
     <td>{{ $Plakat.Longitude }}</td>
     <td>{{ $Plakat.Location }}</td>
-    <td><a href="/del/{{ $Plakat.ID }}">X</a></td>
+    <td><a href="#" onclick="deleteconfirm_list('{{ $Plakat.ID }}');return false;">X</a></td>
   </tr>
 {{end}}
  </tbody>

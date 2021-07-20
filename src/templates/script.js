@@ -17,6 +17,14 @@ var map;
 var ajaxRequest;
 var umkreis;
 
+function deleteconfirm_list(id) {
+    // Löscht das Plakat <id> erst nach Bestätigung.
+    // Leitet danach zur Plakatliste zurück.
+    if (confirm("Möchten Sie dieses Plakat wirklich löschen?")) {
+        location.href = "/del/" + id;
+    }
+}
+
 function initmap() {
     L.Map.include({
       // Funktion zum Ermitteln einzelner Marker per ID.
@@ -108,7 +116,11 @@ function initmap() {
                     lon: e.latlng.lng
                 },
                 function(data) {
-                    alert(data);
+                    Toastify({
+                        text: data,
+                        style.background: "#ffffff",
+                        style.fontFamily: "sans-serif"
+                    }).showToast();
                 }
             );
         }
