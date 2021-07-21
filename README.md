@@ -26,7 +26,12 @@ Unter unixoiden Systemen legt die Plakateapp eine PID-Datei an, läuft also im H
 
 Unter Windows ist das zurzeit noch nicht vorgesehen, die Plakateapp läuft immer im Vordergrund.
 
-Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei `plakateapp.go`) erreichbar. Unter `euerserver:6090/manageplakate` gibt es auch eine einfache Liste aller eingetragenen Plakate zum schnellen Löschen. Der Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
+Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei `plakateapp.go`) erreichbar. Unter `euerserver:6090/manageplakate` gibt es auch eine einfache Liste aller eingetragenen Plakate zum schnellen Löschen.
+
+## Drittanbieterquellen
+
+* Der Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
+* Die Tabelle in der Plakatliste verwendet [sortable](https://github.com/tofsjonas/sortable).
 
 ## Urheberrecht? Quatsch.
 
