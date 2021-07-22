@@ -35,7 +35,9 @@ Die Karte ist anschließend über den Port 6090 (einstellbar direkt in der Datei
 ## Drittanbieterquellen
 
 * Der Großteil des UIs wurde mit [Leafjet.js](http://leafletjs.com/) programmiert.
+* Der Cache für die Kartendarstellung läuft mittels [PouchDB](https://pouchdb.com/) in eurem Webbrowser.
 * Die Tabelle in der Plakatliste verwendet [sortable](https://github.com/tofsjonas/sortable).
+* Für Bestätigungsmeldungen kommt [Toastify](https://apvarun.github.io/toastify-js/) zum Einsatz.
 
 ## Urheberrecht? Quatsch.
 
