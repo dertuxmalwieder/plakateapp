@@ -18,6 +18,7 @@ package main
 import (
 	"encoding/json"
 	"encoding/xml"
+	"flag"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -63,6 +64,10 @@ type AdressParts struct {
 
 // ----------------------------------------
 
+var dbPath string
+
+// ----------------------------------------
+
 func CheckError(err error) {
 	// Bei Fehlern schreiend im Kreis rennen:
 	if err != nil {
@@ -88,7 +93,7 @@ func GetXML(url string) ([]byte, error) {
 
 func FetchPlakate() []Plakat {
 	// Liste von Plakaten aus der DB in ein Plakat-Array schieben:
-	db, err := sqlx.Open("sqlite3", "./plakate.db")
+	db, err := sqlx.Open("sqlite3", dbPath)
 	CheckError(err)
 	defer db.Close()
 
@@ -101,7 +106,7 @@ func FetchPlakate() []Plakat {
 
 func DeletePlakat(id string) {
 	// Datenbank aufrufen:
-	db, err := sqlx.Open("sqlite3", "./plakate.db")
+	db, err := sqlx.Open("sqlite3", dbPath)
 	CheckError(err)
 	defer db.Close()
 
@@ -179,7 +184,7 @@ func NeuesPlakatHandler(w http.ResponseWriter, r *http.Request) {
 	location := fmt.Sprintf("%s%s%s", p1, p2, p3)
 
 	// Datenbank aufrufen:
-	db, err := sqlx.Open("sqlite3", "./plakate.db")
+	db, err := sqlx.Open("sqlite3", dbPath)
 	CheckError(err)
 	defer db.Close()
 
@@ -227,5 +232,8 @@ func serveHTTP() {
 }
 
 func main() {
+	flag.StringVar(&dbPath, "db", "./plakate.db", "Pfad zur Datenbankdatei (optional)")
+	flag.Parse()
+
 	startServer()
 }

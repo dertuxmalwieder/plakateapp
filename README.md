@@ -20,6 +20,10 @@ Das Ausführen ist dann leicht:
 
     % ./plakateapp
 
+Standardmäßig sucht das Programm die Datenbank unter `./plakate.db`. Wenn ihr sie lieber woanders aufbewahren wollt, geht das mit dem Flag `-db`:
+
+    % ./plakateapp -db=/home/www/plakate.db
+
 Unter unixoiden Systemen legt die Plakateapp eine PID-Datei an, läuft also im Hintergrund. Zum Beenden sollte der `kill`-Befehl funktionieren:
 
     % kill `cat plakateapp.pid`
