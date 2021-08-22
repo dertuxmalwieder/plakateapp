@@ -27,18 +27,18 @@ function deleteconfirm_list(id) {
 
 function initmap() {
     L.Map.include({
-      // Funktion zum Ermitteln einzelner Marker per ID.
-      getMarkerById: function (id) {
-        let marker = null;
-        this.eachLayer(function (layer) {
-            if (layer instanceof L.Marker) {
-                if (layer.options.id === id) {
-                    marker = layer;
+        // Funktion zum Ermitteln einzelner Marker per ID.
+        getMarkerById: function (id) {
+            let marker = null;
+            this.eachLayer(function (layer) {
+                if (layer instanceof L.Marker) {
+                    if (layer.options.id === id) {
+                        marker = layer;
+                    }
                 }
-            }
-        });
-        return marker;
-      }
+            });
+            return marker;
+        }
     });
 
     // Karte initialisieren
@@ -48,12 +48,12 @@ function initmap() {
     const osmAttrib='Karte von <a href="https://openstreetmap.org">OpenStreetMap</a>';
     const osm = new L.TileLayer(
         osmUrl, {
-        minZoom: 12,
-        maxZoom: 28,
-        maxNativeZoom: 19,
-        attribution: osmAttrib,
-        useCache: true,
-        crossOrigin: true }
+            minZoom: 12,
+            maxZoom: 28,
+            maxNativeZoom: 19,
+            attribution: osmAttrib,
+            useCache: true,
+            crossOrigin: true }
     );
 
     // OSM anzeigen
@@ -86,43 +86,25 @@ function initmap() {
 
     // bestehende Marker laden:
     $.post(
-      "/listplakate",
-      {},
-      function(data) {
-          const json = JSON.parse(data);
-          for (let i = 0; i < json.length; i++) {
-              let plakat = json[i];
-              let plakatlatlng = new L.LatLng(plakat.Latitude,plakat.Longitude);
-              let marker = new L.Marker(plakatlatlng, {draggable:false})
-                           .bindPopup("<input type='button' value='Plakat löschen' data-id='"+plakat.ID+"' class='marker-delete-button'/>");
+        "/listplakate",
+        {},
+        function(data) {
+            const json = JSON.parse(data);
+            for (let i = 0; i < json.length; i++) {
+                let plakat = json[i];
+                let plakatlatlng = new L.LatLng(plakat.Latitude,plakat.Longitude);
+                let marker = new L.Marker(plakatlatlng, {draggable:false})
+                    .bindPopup("<input type='button' value='Plakat löschen' data-id='"+plakat.ID+"' class='marker-delete-button'/>");
 
-              marker.on("popupopen", onPopupOpen);
-              map.addLayer(marker);
-          }
-      }
+                marker.on("popupopen", onPopupOpen);
+                map.addLayer(marker);
+            }
+        }
     );
 
     // neue Marker setzen:
     map.on('click', function(e) {
-        if (confirm("Möchtest du hier ein neues Plakat melden?")) {
-            let marker = new L.Marker(e.latlng, {draggable:false});
-            marker.on("popupopen", onPopupOpen);
-            map.addLayer(marker);
-
-            $.post(
-                "/neuesplakat",
-                {
-                    lat: e.latlng.lat,
-                    lon: e.latlng.lng
-                },
-                function(data) {
-                    Toastify({
-                        text: data
-                    }).showToast();
-                }
-            );
-        }
-
+        askForNewPlakat(e.latlng);
         return false;
     });
 
@@ -144,6 +126,40 @@ function initmap() {
 
         $(this).toggleClass("strike"); 
     });
+
+    // Neues-Plakat-Button:
+    $("#newplakatbtn").on("click", function() {
+        // Position ermitteln:
+        let posmarker = map.getMarkerById(1);
+        if (posmarker != null) {
+            // Normalerweise sollte dieser Marker existieren.
+            // Ein else-Fall ergibt vermutlich keinen Sinn hier.
+            askForNewPlakat(posmarker.getLatLng());
+        }
+        return false;
+    });
+}
+
+function askForNewPlakat(latlng) {
+    // Abfrage für ein neues Plakat an Position <latlng>.
+    if (confirm("Möchtest du hier ein neues Plakat melden?")) {
+        let marker = new L.Marker(latlng, {draggable:false});
+        marker.on("popupopen", onPopupOpen);
+        map.addLayer(marker);
+
+        $.post(
+            "/neuesplakat",
+            {
+                lat: latlng.lat,
+                lon: latlng.lng
+            },
+            function(data) {
+                Toastify({
+                    text: data
+                }).showToast();
+            }
+        );
+    }
 }
 
 function onPopupOpen() {
@@ -151,11 +167,11 @@ function onPopupOpen() {
 
     $(".marker-delete-button:visible").click(function () {
         $.post(
-          "/delpost",
-          { id: $(this).attr("data-id") },
-          function(data) {
-              // noop
-          }
+            "/delpost",
+            { id: $(this).attr("data-id") },
+            function(data) {
+                // noop
+            }
         );
         map.removeLayer(tempMarker);
     });

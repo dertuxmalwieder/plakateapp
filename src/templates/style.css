@@ -13,7 +13,7 @@
  * distribution.
  */
 
-#map,#tracebtn {
+#map,#tracebtn,#newplakatbtn {
     position: absolute;
 }
 
@@ -22,6 +22,19 @@
     width: 100%;
     top: 0;
     left: 0;
+}
+
+#newplakatbtn {
+    margin: 8px;
+    background-color: #fff;
+    border: 3px raised darkgray;
+    font-family: sans-serif;
+    bottom: 8px;
+    right: 8px;
+    z-index: 9999;
+    opacity: .7;
+    cursor: hand;
+    padding: 4px;
 }
 
 #tracebtn {
