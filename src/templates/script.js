@@ -66,7 +66,16 @@ function initmap() {
         // Haben wir schon einen Marker? Dann verschieben, sonst hinzufügen:
         let posmarker = map.getMarkerById(1);
         if (posmarker == null) {
-            L.marker(e.latlng, { id: 1 })
+            let standortMarkerIcon = new L.Icon({
+                iconUrl: "/static/images/marker-icon-green.png",
+                shadowUrl: "/static/images/marker-shadow.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            L.marker(e.latlng, { icon: standortMarkerIcon, id: 1 })
                 .addTo(map)
                 .bindPopup("Du bist ungefähr hier.")
                 .openPopup();
