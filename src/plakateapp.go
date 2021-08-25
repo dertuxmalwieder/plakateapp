@@ -65,6 +65,7 @@ type AdressParts struct {
 // ----------------------------------------
 
 var dbPath string
+var applicationPort string
 
 // ----------------------------------------
 
@@ -228,11 +229,12 @@ func serveHTTP() {
 	http.Handle("/", r)
 
 	// Server starten:
-	log.Fatal(http.ListenAndServe(":6090", nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", applicationPort), nil))
 }
 
 func main() {
 	flag.StringVar(&dbPath, "db", "./plakate.db", "Pfad zur Datenbankdatei (optional)")
+	flag.StringVar(&applicationPort, "port", "6090", "Port, auf dem die Anwendung laufen soll (optional)")
 	flag.Parse()
 
 	startServer()

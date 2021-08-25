@@ -8,5 +8,5 @@ require (
 	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.8
 	github.com/sevlyar/go-daemon v0.1.5
-	golang.org/x/sys v0.0.0-20210806184541-e5e7981a1069 // indirect
+	golang.org/x/sys v0.0.0-20210823070655-63515b42dcdf // indirect
 )
