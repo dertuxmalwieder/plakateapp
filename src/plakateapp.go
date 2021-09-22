@@ -190,10 +190,21 @@ func NeuesPlakatHandler(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 
 	stmt, err := db.Prepare("insert into plakate (lat, lon, location) values (?, ?, ?)")
-	_, err = stmt.Exec(lat, lon, location)
+	result, err := stmt.Exec(lat, lon, location)
 	CheckError(err)
 
-	fmt.Fprintf(w, "Plakat erfolgreich eingetragen!")
+	lastId, err := result.LastInsertId()
+	CheckError(err)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusCreated)
+
+	resp := make(map[string]string)
+	resp["text"] = "Plakat erfolgreich eingetragen!"
+	resp["id"] = string(lastId)
+	jsonResp, err := json.Marshal(resp)
+	CheckError(err)
+	w.Write(jsonResp)
 }
 
 func DelHandler(w http.ResponseWriter, r *http.Request) {

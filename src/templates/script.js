@@ -152,10 +152,6 @@ function initmap() {
 function askForNewPlakat(latlng) {
     // Abfrage für ein neues Plakat an Position <latlng>.
     if (confirm("Möchtest du hier ein neues Plakat melden?")) {
-        let marker = new L.Marker(latlng, {draggable:false});
-        marker.on("popupopen", onPopupOpen);
-        map.addLayer(marker);
-
         $.post(
             "/neuesplakat",
             {
@@ -164,8 +160,13 @@ function askForNewPlakat(latlng) {
             },
             function(data) {
                 Toastify({
-                    text: data
+                    text: data.text
                 }).showToast();
+
+                let marker = new L.Marker(latlng, {draggable:false})
+                    .bindPopup("<input type='button' value='Plakat löschen' data-id='"+data.id+"' class='marker-delete-button'/>");
+                marker.on("popupopen", onPopupOpen);
+                map.addLayer(marker);
             }
         );
     }
