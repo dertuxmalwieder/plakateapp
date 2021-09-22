@@ -14,7 +14,6 @@
  */
 
 var map;
-var ajaxRequest;
 var umkreis;
 
 function deleteconfirm_list(id) {
@@ -179,7 +178,7 @@ function onPopupOpen() {
         $.post(
             "/delpost",
             { id: $(this).attr("data-id") },
-            function(data) {
+            function(_data) {
                 // noop
             }
         );
